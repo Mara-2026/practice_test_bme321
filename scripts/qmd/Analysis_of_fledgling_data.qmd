@@ -13,7 +13,7 @@ format:
     code-fold: show
 editor: visual
 editor_options:
-  chunk_output_type: console #prints the graphs in the console in R
+  chunk_output_type: console
 execute:
   warning: false #this prevent warning messages being rendered
   message: false
@@ -80,3 +80,35 @@ fledglings<- clean%>%
 ```
 
 Here the flags and the row with the NA was removed.
+
+## Explore the data
+
+### Numerically
+
+```{r}
+#| label: tbl-numerical-exploration-of-data
+#| tbl-cap: "Numerical exploration of the data"
+
+numexp<-stat.desc(fledglings,norm = T)
+
+kable(numexp, digits=1)
+```
+
+### Graphically
+
+```{r}
+#| label: fig-graphical-exploration
+
+expgraph<-ggarrange(
+  ggplot(fledglings, aes(x=insect_abundance,y=n_fledglings))+
+    geom_point()+
+    geom_smooth(method= glm, method.args= list(family= "poisson"),
+                  col= "black")+
+    labs(x=expression("Insect abundance in (g/m" ^2*")"), y="Number of succesfully raised fledglings per nest"),
+  ggplot(fledglings, aes(x=env_noise,y=n_fledglings))+
+    geom_point()+
+    geom_smooth(method= glm, method.args= list(family= "poisson"),
+                  col= "black")+
+    labs(x="Environmental ambient noise (db)", y="Number of succesfully raised fledglings per nest")
+)
+```
