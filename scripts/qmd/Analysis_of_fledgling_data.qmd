@@ -1,0 +1,82 @@
+---
+title: "Fledglings"
+author: "Mara Bodenmann"
+date: today
+toc: true
+abstract-title: "Research question:"
+abstract: "How do environmental stressors and resource availability influence reproductive success?"
+format:
+  html:
+    embed-resources: true #single HTML file with no supportive directory
+#    css: ../../styles.css
+    number-sections: true
+    code-fold: show
+editor: visual
+editor_options:
+  chunk_output_type: console #prints the graphs in the console in R
+execute:
+  warning: false #this prevent warning messages being rendered
+  message: false
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+## Prepare Session
+
+Import libraries
+
+```{r}
+#| label: load-libraries
+
+  library(pastecs)
+  library(ggpubr); theme_set(theme_bw())
+  library(GGally)
+  library(performance)
+  library(MuMIn)
+  library(ggeffects)
+  library(tidyverse)
+
+  library(knitr) 
+```
+
+Import the data
+
+```{r}
+#| label: import-data
+
+clean <- read_csv("data/processed/clean.CSV")
+
+```
+
+Modify the data
+
+```{r}
+#| label: modify-data
+
+#deal with NA--> remove the row with this NA
+fledglings<- clean%>%
+  select(n_fledglings, insect_abundance, env_noise)%>%
+  na.omit() #removes rows with na, can specify column: filter(!is.na(column_name))
+
+```
+
+Here the flags and the row with the NA was removed.
