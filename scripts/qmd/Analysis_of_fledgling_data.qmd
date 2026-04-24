@@ -134,7 +134,7 @@ The model I choose is model 2 where there is no interaction between the insect a
 
 Validate whether I should proceed with the model
 
-First I have to check for overdispersion because it is a glm!
+First I have to check for overdispersion because it is a glm! Whoopdidoo!
 
 ```{r}
 #| label: overdispersion
