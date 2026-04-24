@@ -111,4 +111,30 @@ expgraph<-ggarrange(
                   col= "black")+
     labs(x="Environmental ambient noise (db)", y="Number of succesfully raised fledglings per nest")
 )
+expgraph
 ```
+
+## Fit the models
+
+Fitting different models to see which one is most suitable for the data
+
+```{r}
+#| label: fitting-the-models
+mod1<-glm(n_fledglings~ 1, family= "poisson", data=fledglings)
+mod2<-glm(n_fledglings~ insect_abundance + env_noise , family= "poisson", data=fledglings)
+mod3<-glm(n_fledglings~ insect_abundance * env_noise , family= "poisson", data=fledglings)
+```
+
+### Evaluate the models 
+
+Choose which one fits the best.
+
+```{r}
+#| label: tbl-evaluate-the-models
+#| tbl-cap: "A table showing he evaluation of the models 1-3"
+
+anv.models<-anova(mod1,mod2,mod3)
+kable(anv.models)
+```
+
+The model I choose is model 2 where there is no interaction between the insect abundance and the environment noise. Because with the interaction, the model was not significantly better than the one without the interaction.
